@@ -1,0 +1,19 @@
+server:
+  servlet:
+    context-path: /taw
+  port: 8081
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/auth
+    username: postgres
+    password: postgres
+    jpa:
+      hibernate:
+        ddl-auto: none
+      show-sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: false
+    out-of-order: false

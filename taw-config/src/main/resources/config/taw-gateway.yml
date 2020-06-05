@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+zuul:
+  ignoredServices: '*'
+  host:
+    connect-timeout-millis: 20000
+    socket-timeout-millis: 20000
+  routes:
+    taw-auth:
+      path: /taw/**
+      url: taw-auth
+      stripPrefix: false
+      sensitiveHeaders:
+    taw-account:
+      path: /accounts/**
+      serviceId: taw-account
+      stripPrefix: false
+      sensitiveHeaders:
