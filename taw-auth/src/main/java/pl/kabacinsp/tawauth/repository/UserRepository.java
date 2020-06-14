@@ -1,16 +1,16 @@
 package pl.kabacinsp.tawauth.repository;
 
-import pl.kabacinsp.tawauth.model.User;
+import pl.kabacinsp.tawauth.model.UserClient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<UserClient, String> {
 
-  Optional<User> findByUsername(String username);
+  Optional<UserClient> findByUsername(String username);
 
-  Optional<User> findById(long id);
+  Optional<UserClient> findById(long id);
 
 }

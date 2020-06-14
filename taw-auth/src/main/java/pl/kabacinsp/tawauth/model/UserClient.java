@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class User implements UserDetails {
+public class UserClient implements UserDetails {
 
   @Id
   @Column(name = "id", columnDefinition = "serial")

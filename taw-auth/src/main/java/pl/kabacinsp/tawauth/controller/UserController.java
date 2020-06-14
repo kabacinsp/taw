@@ -1,6 +1,6 @@
 package pl.kabacinsp.tawauth.controller;
 
-import pl.kabacinsp.tawauth.model.User;
+import pl.kabacinsp.tawauth.model.UserClient;
 import pl.kabacinsp.tawauth.dto.UserDto;
 import pl.kabacinsp.tawauth.dto.UserRegistrationDto;
 import pl.kabacinsp.tawauth.repository.UserRepository;
@@ -32,45 +32,45 @@ public class UserController {
   @PostMapping
   @PreAuthorize("#oauth2.hasScope('server')")
   public UserDto createUser(@Valid @RequestBody UserRegistrationDto userRegistration) {
-    User savedUser = userService.create(toUser(userRegistration));
-    return toDto(savedUser);
+    UserClient savedUserClient = userService.create(toUser(userRegistration));
+    return toDto(savedUserClient);
   }
 
   @PutMapping
   @PreAuthorize("#oauth2.hasScope('server')")
   public UserDto updateUser(@RequestParam("id") long id, @Valid @RequestBody UserDto user)
       throws Exception {
-    final User userFromDB = loadUpdatedUserFromDatabase(id);
-    userFromDB.setUsername(user.getUsername());
-    User updatedUser = userService.update(userFromDB);
+    final UserClient userClientFromDB = loadUpdatedUserFromDatabase(id);
+    userClientFromDB.setUsername(user.getUsername());
+    UserClient updatedUserClient = userService.update(userClientFromDB);
 
-    return toDto(updatedUser);
+    return toDto(updatedUserClient);
   }
 
   @DeleteMapping
   @PreAuthorize("#oauth2.hasScope('server')")
   public void deleteUser(@RequestParam("id") long id) throws Exception {
-    final User userFromDB = loadUpdatedUserFromDatabase(id);
-    userService.delete(userFromDB);
+    final UserClient userClientFromDB = loadUpdatedUserFromDatabase(id);
+    userService.delete(userClientFromDB);
   }
 
-  private UserDto toDto(User user) {
+  private UserDto toDto(UserClient userClient) {
     UserDto userDto = new UserDto();
-    userDto.setId(user.getId());
-    userDto.setUsername(user.getUsername());
+    userDto.setId(userClient.getId());
+    userDto.setUsername(userClient.getUsername());
     return userDto;
   }
 
-  private User toUser(UserRegistrationDto userRegistration) {
-    User user = new User();
-    user.setUsername(userRegistration.getUsername());
-    user.setPassword(userRegistration.getPassword());
-    user.setEmail(userRegistration.getEmail());
-    return user;
+  private UserClient toUser(UserRegistrationDto userRegistration) {
+    UserClient userClient = new UserClient();
+    userClient.setUsername(userRegistration.getUsername());
+    userClient.setPassword(userRegistration.getPassword());
+    userClient.setEmail(userRegistration.getEmail());
+    return userClient;
   }
 
-  private User loadUpdatedUserFromDatabase(long id) throws Exception {
-    final Optional<User> userFromDB = userRepository.findById(id);
+  private UserClient loadUpdatedUserFromDatabase(long id) throws Exception {
+    final Optional<UserClient> userFromDB = userRepository.findById(id);
 
     if (userFromDB.isEmpty()) {
       throw new Exception("Cannot update user with ID " + id + ". User does not exist.");
