@@ -1,6 +1,6 @@
 package pl.kabacinsp.tawauth.service;
 
-import pl.kabacinsp.tawauth.model.User;
+import pl.kabacinsp.tawauth.model.UserClient;
 import pl.kabacinsp.tawauth.enums.Authorities;
 import pl.kabacinsp.tawauth.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,32 +22,32 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User create(User user) {
-    throwIfUsernameExists(user.getUsername());
+  public UserClient create(UserClient userClient) {
+    throwIfUsernameExists(userClient.getUsername());
 
-    String hash = passwordEncoder.encode(user.getPassword());
-    user.setPassword(hash);
-    user.setActivated(Boolean.TRUE); // TODO send sms or email with code for activation
-    user.setAuthorities(new HashSet<Authorities>(Collections.singletonList(Authorities.ROLE_USER)));
+    String hash = passwordEncoder.encode(userClient.getPassword());
+    userClient.setPassword(hash);
+    userClient.setActivated(Boolean.TRUE); // TODO send sms or email with code for activation
+    userClient.setAuthorities(new HashSet<Authorities>(Collections.singletonList(Authorities.ROLE_USER)));
 
     // TODO other routines on account creation
 
-    return userRepository.save(user);
+    return userRepository.save(userClient);
   }
 
   @Override
-  public User update(User user) {
-    return userRepository.save(user);
+  public UserClient update(UserClient userClient) {
+    return userRepository.save(userClient);
   }
 
   @Override
-  public User delete(User user) {
-    userRepository.delete(user);
-    return user;
+  public UserClient delete(UserClient userClient) {
+    userRepository.delete(userClient);
+    return userClient;
   }
 
   private void throwIfUsernameExists(String username) {
-    Optional<User> existingUser = userRepository.findByUsername(username);
+    Optional<UserClient> existingUser = userRepository.findByUsername(username);
     existingUser.ifPresent(
         user -> {
           throw new IllegalArgumentException("User not available");

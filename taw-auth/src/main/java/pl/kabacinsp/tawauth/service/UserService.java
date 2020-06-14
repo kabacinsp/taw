@@ -1,11 +1,11 @@
 package pl.kabacinsp.tawauth.service;
 
-import pl.kabacinsp.tawauth.model.User;
+import pl.kabacinsp.tawauth.model.UserClient;
 
 public interface UserService {
-  User create(User user);
+  UserClient create(UserClient userClient);
 
-  User update(User user) throws Exception;
+  UserClient update(UserClient userClient) throws Exception;
 
-  User delete(User user);
+  UserClient delete(UserClient userClient);
 }

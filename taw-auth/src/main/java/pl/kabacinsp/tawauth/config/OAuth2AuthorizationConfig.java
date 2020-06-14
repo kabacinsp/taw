@@ -66,8 +66,8 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
   @Override
   public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
     endpoints
-        .authenticationManager(this.authenticationManager)
         .tokenStore(tokenStore())
+        .authenticationManager(this.authenticationManager)
         .accessTokenConverter(tokenEnhancer())
         .userDetailsService(this.userDetailsService);
   }
