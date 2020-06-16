@@ -1,8 +1,12 @@
 package pl.kabacinsp.tawauth.controller;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 import pl.kabacinsp.tawauth.model.UserClient;
 import pl.kabacinsp.tawauth.dto.UserDto;
 import pl.kabacinsp.tawauth.dto.UserRegistrationDto;
+import pl.kabacinsp.tawauth.model.UserRegistration;
 import pl.kabacinsp.tawauth.repository.UserRepository;
 import pl.kabacinsp.tawauth.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,13 +31,6 @@ public class UserController {
   @GetMapping("/current")
   public Principal getUser(Principal principal) {
     return principal;
-  }
-
-  @PostMapping
-  @PreAuthorize("#oauth2.hasScope('server')")
-  public UserDto createUser(@Valid @RequestBody UserRegistrationDto userRegistration) {
-    UserClient savedUserClient = userService.create(toUser(userRegistration));
-    return toDto(savedUserClient);
   }
 
   @PutMapping
@@ -61,7 +58,7 @@ public class UserController {
     return userDto;
   }
 
-  private UserClient toUser(UserRegistrationDto userRegistration) {
+  private UserClient toUser(UserRegistration userRegistration) {
     UserClient userClient = new UserClient();
     userClient.setUsername(userRegistration.getUsername());
     userClient.setPassword(userRegistration.getPassword());

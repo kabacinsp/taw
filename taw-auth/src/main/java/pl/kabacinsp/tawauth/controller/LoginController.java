@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,6 +24,11 @@ public class LoginController {
     return new ModelAndView("login");
   }
 
+  @GetMapping("/welcome")
+  public ModelAndView welcome() {
+    return new ModelAndView("welcome");
+  }
+
   @GetMapping(value = "/loginFailed")
   public ModelAndView loginError(Model model) {
     model.addAttribute("error", "true");
@@ -38,7 +44,7 @@ public class LoginController {
   public ModelAndView logout(SessionStatus session) {
     SecurityContextHolder.getContext().setAuthentication(null);
     session.setComplete();
-    return new ModelAndView("welcome");
+    return new ModelAndView("home");
   }
 
   @PostMapping(value = "/postLogin")
@@ -52,7 +58,13 @@ public class LoginController {
     model.addAttribute("currentUserId", loggedInUserClient.getId());
     model.addAttribute("currentUser", loggedInUserClient.getUsername());
     session.setAttribute("userId", loggedInUserClient.getId());
-    return new ModelAndView("home");
+    return new ModelAndView("welcome");
+  }
+
+  @PostMapping(value = "/register")
+  public ModelAndView createUser(UserClient userClient) {
+    userService.create(userClient);
+    return new ModelAndView("welcome");
   }
 
   private void validatePrinciple(Object principal) {
