@@ -23,7 +23,7 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
+      <li class="nav-item active"><a class="nav-link" href="welcome" th:href="@{/welcome}">Home</a></li>
       <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
       <li class="nav-item"><a class="nav-link" href="#">Marketplace</a></li>
       <li class="nav-item"><a class="nav-link" href="#">Issues</a></li>
@@ -40,7 +40,8 @@
     </form>
     <ul class="nav navbar-nav navbar-right">
       <div class="btn-group">
-        <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
           <i class="fa fa-user" aria-hidden="true"></i> User
         </button>
         <div class="dropdown-menu dropdown-menu-right">
@@ -50,8 +51,12 @@
           <a class="dropdown-item" href="#">Your profile</a>
           <a class="dropdown-item" href="#">Your projects</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Settings</a>
-          <a class="dropdown-item" href="#"><i class="fa fa-sign-in"></i> Log out</a>
+          <a class="dropdown-item" href="manage" sec:authorize="hasRole('ROLE_ADMIN')">Manage users</a>
+          <a class="dropdown-item" href="#" sec:authorize="hasRole('ROLE_ADMIN')">Administrator panel</a>
+          <li th:if="${#authorization.expression('isAuthenticated()')}">
+            <a class="dropdown-item" href="logout"><i class="fa fa-sign-in"></i> Log out</a>
+            <form style="visibility: hidden" id="form" method="get" action="home" th:action="@{/logout}"></form>
+          </li>
         </div>
       </div>
     </ul>
@@ -60,7 +65,8 @@
 <body>
 <div class="jumbotron mt-3" style="background-color: rgba(0, 0, 0, 0.8); color: #fff">
   <h1>Lorem ipsum, or lipsum</h1>
-  <p>Purus ut faucibus pulvinar elementum integer enim neque volutpat ac. Aliquam ultrices sagittis orci a scelerisque. Duis at consectetur lorem donec massa. </p>
+  <p>Purus ut faucibus pulvinar elementum integer enim neque volutpat ac. Aliquam ultrices sagittis orci a scelerisque.
+    Duis at consectetur lorem donec massa. </p>
 </div>
 <div class="row">
   <div class="col-md-3">
@@ -68,10 +74,16 @@
       <button type="button" class="list-group-item list-group-item-action list-group-item-dark active">
         Cras justo odio
       </button>
-      <button type="button" class="list-group-item list-group-item-action list-group-item-dark">Dapibus ac facilisis in</button>
+      <button type="button" class="list-group-item list-group-item-action list-group-item-dark">Dapibus ac facilisis
+        in
+      </button>
       <button type="button" class="list-group-item list-group-item-action list-group-item-dark">Morbi leo risus</button>
-      <button type="button" class="list-group-item list-group-item-action list-group-item-dark">Porta ac consectetur ac</button>
-      <button type="button" class="list-group-item list-group-item-action list-group-item-dark" disabled>Vestibulum at eros</button>
+      <button type="button" class="list-group-item list-group-item-action list-group-item-dark">Porta ac consectetur
+        ac
+      </button>
+      <button type="button" class="list-group-item list-group-item-action list-group-item-dark" disabled>Vestibulum at
+        eros
+      </button>
     </div>
   </div>
   <div class="col-md-9">

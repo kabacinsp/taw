@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage user</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="https://kit.fontawesome.com/2bfe66fd09.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+  <a class="navbar-brand" href="#">Taw</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active"><a class="nav-link" href="welcome" th:href="@{/welcome}">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Marketplace</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Issues</a></li>
+    </ul>
+    <form class="navbar-form navbar-left" action="/action_page.php">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search" name="search">
+        <div class="input-group-btn">
+          <button class="btn btn-default" type="submit">
+            <i class="fa fa-search" style="font-size: 24px;color:gray;"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+    <ul class="nav navbar-nav navbar-right">
+      <div class="btn-group">
+        <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+          <i class="fa fa-user" aria-hidden="true"></i> User
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <p class="pl-4 mb-0">Signed in as</p>
+          <strong><span class="pl-4" th:text="${#authentication.name}"></span></strong>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Your profile</a>
+          <a class="dropdown-item" href="#">Your projects</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#" sec:authorize="hasRole('ROLE_ADMIN')">Manage users</a>
+          <a class="dropdown-item" href="#" sec:authorize="hasRole('ROLE_ADMIN')">Administrator panel</a>
+          <li th:if="${#authorization.expression('isAuthenticated()')}">
+            <a class="dropdown-item" href="logout"><i class="fa fa-sign-in"></i> Log out</a>
+            <form style="visibility: hidden" id="form" method="get" action="home" th:action="@{/logout}"></form>
+          </li>
+        </div>
+      </div>
+    </ul>
+  </div>
+</nav>
+<body>
+<div class="container mt-5">
+  <h2 class="py-5">Edit user
+    <strong><span th:text=${editingUser.username}> User</span></strong>
+  </h2>
+  <form>
+    <div class="form-row">
+      <div class="col-md-6 mb-3">
+        <label for="username">Username</label>
+        <input type="text" class="form-control is-valid" th:value="${editingUser.username}"
+               ame="username" id="username" required>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="email">E-mail</label>
+        <input type="text" class="form-control is-valid" th:value="${editingUser.email}"
+               name="email" id="email" required>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="authorities">Authorities</label>
+        <input type="text" class="form-control is-valid" th:value="${editingUser.authorities}"
+               name="authorities" id="authorities" required>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="form-check pt-4 mt-3 pl-5">
+          <input type="checkbox" class="form-check-input is-invalid"
+                 th:checked="${editingUser.activated}" name="activated" id="activated" required>
+          <label class="form-check-label" for="activated">Is active</label>
+          <div class="invalid-feedback">An unchecked field will cause verify the email address again</div>
+        </div>
+      </div>
+      <div class="container">
+        <a class="btn btn-secondary" type="button" href="manage" th:href="@{/manage}">Cancel</a>
+        <button class="btn btn-primary float-right" type="submit" th:href="@{/edit_user(userId=${editingUser.id})}"
+                th:method="put">Submit form</button>
+      </div>
+    </div>
+  </form>
+</div>
+</div>
+</body>
+<footer class="form-inline justify-content-center small">
+  <div>
+    <ul class="nav">
+      <li class="nav-item"><a class="nav-link" href="#">Terms</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Privacy</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
+    </ul>
+  </div>
+  <div class="footer-copyright toast-body px-5 py-5">
+    &#169 2020 Copyright:
+    <a href="https://taw.com/"> taw.com</a>
+  </div>
+  <div>
+    <ul class="nav">
+      <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+    </ul>
+  </div>
+</footer>
+</body>
+</html>
