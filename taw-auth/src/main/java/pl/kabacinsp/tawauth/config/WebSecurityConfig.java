@@ -17,13 +17,15 @@ import pl.kabacinsp.tawauth.service.JwtAuthentication;
 @Order(-10)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-  @Autowired private CustomUserDetailsService userDetailsService;
+  @Autowired
+  private CustomUserDetailsService userDetailsService;
 
-  @Autowired private JwtAuthentication unauthorizedHandler;
+  @Autowired
+  private JwtAuthentication unauthorizedHandler;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests().antMatchers("/", "/login", "/home", "/welcome").permitAll()
+    http.authorizeRequests().antMatchers("/", "/login", "/home").permitAll()
         .and()
         .authorizeRequests().antMatchers("/oauth/**").authenticated()
         .and()
@@ -36,6 +38,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .loginProcessingUrl("/doLogin")
         .successForwardUrl("/postLogin")
         .failureUrl("/loginFailed")
+        .and()
+        .logout()
+        .logoutSuccessUrl("/home")
         .and()
         .csrf().disable();
   }
